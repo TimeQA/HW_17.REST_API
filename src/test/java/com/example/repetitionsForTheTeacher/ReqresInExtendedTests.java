@@ -91,6 +91,31 @@ public class ReqresInExtendedTests {
     }
 
     @Test
+    void loginWithAllureTest() {
+        LoginBodyLombokModel body = new LoginBodyLombokModel();
+        body.setEmail("eve.holt@reqres.in");
+        body.setPassword("cityslicka");
+
+        LoginBodyLombokModel response = given()
+                .auth().basic("user1", "1234")
+                .log().uri()
+                .log().body()
+                .contentType(JSON)
+                .body(body)
+                .when()
+                .post("https://reqres.in/api/login")
+                .then()
+                .log().status()
+                .log().body()
+                .statusCode(200)
+                .body("token", notNullValue())
+                .extract()
+                .as(LoginBodyLombokModel.class);
+
+        assertThat(response.getEmail()).isEqualTo("QpwL5tke4Pnpja7X4");
+    }
+
+    @Test
     void loginWithSpecTest() {
         LoginBodyLombokModel body = new LoginBodyLombokModel();
         body.setEmail("eve.holt@reqres.in");
