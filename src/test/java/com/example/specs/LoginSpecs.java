@@ -6,12 +6,14 @@ import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
 
+import static com.example.helpers.CustomApiListener.withCustomTemplates;
 import static io.restassured.RestAssured.with;
 import static org.hamcrest.Matchers.notNullValue;
 
 public class LoginSpecs {
 
     public static RequestSpecification loginRequestSpec = with()
+            .filter(withCustomTemplates())
             .baseUri("https://reqres.in")
             .basePath("/api/login")
             .log().uri()

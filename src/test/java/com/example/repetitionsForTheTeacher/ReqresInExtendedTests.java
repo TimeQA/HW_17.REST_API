@@ -1,10 +1,13 @@
 package com.example.repetitionsForTheTeacher;
 
 import com.example.models.lombok.LoginBodyLombokModel;
+import com.example.models.lombok.LoginResponseLombokModel;
 import com.example.models.pojo.LoginBodyPojoModel;
 import com.example.models.pojo.LoginResponsePojoModel;
+import io.qameta.allure.restassured.AllureRestAssured;
 import org.junit.jupiter.api.Test;
 
+import static com.example.helpers.CustomApiListener.withCustomTemplates;
 import static com.example.specs.LoginSpecs.loginRequestSpec;
 import static com.example.specs.LoginSpecs.loginResponseSpec;
 import static io.restassured.RestAssured.given;
@@ -71,7 +74,7 @@ public class ReqresInExtendedTests {
         body.setEmail("eve.holt@reqres.in");
         body.setPassword("cityslicka");
 
-        LoginBodyLombokModel response = given()
+        LoginResponseLombokModel response = given()
                 .auth().basic("user1", "1234")
                 .log().uri()
                 .log().body()
@@ -85,9 +88,9 @@ public class ReqresInExtendedTests {
                 .statusCode(200)
                 .body("token", notNullValue())
                 .extract()
-                .as(LoginBodyLombokModel.class);
+                .as(LoginResponseLombokModel.class);
 
-        assertThat(response.getEmail()).isEqualTo("QpwL5tke4Pnpja7X4");
+        assertThat(response.getToken()).isEqualTo("QpwL5tke4Pnpja7X4");
     }
 
     @Test
@@ -96,8 +99,8 @@ public class ReqresInExtendedTests {
         body.setEmail("eve.holt@reqres.in");
         body.setPassword("cityslicka");
 
-        LoginBodyLombokModel response = given()
-                .auth().basic("user1", "1234")
+        LoginResponseLombokModel response = given()
+                .filter(new AllureRestAssured())
                 .log().uri()
                 .log().body()
                 .contentType(JSON)
@@ -110,9 +113,34 @@ public class ReqresInExtendedTests {
                 .statusCode(200)
                 .body("token", notNullValue())
                 .extract()
-                .as(LoginBodyLombokModel.class);
+                .as(LoginResponseLombokModel.class);
 
-        assertThat(response.getEmail()).isEqualTo("QpwL5tke4Pnpja7X4");
+        assertThat(response.getToken()).isEqualTo("QpwL5tke4Pnpja7X4");
+    }
+
+    @Test
+    void loginWithAllureTemplateTest() {
+        LoginBodyLombokModel body = new LoginBodyLombokModel();
+        body.setEmail("eve.holt@reqres.in");
+        body.setPassword("cityslicka");
+
+        LoginResponseLombokModel response = given()
+                .filter(withCustomTemplates())
+                .log().uri()
+                .log().body()
+                .contentType(JSON)
+                .body(body)
+                .when()
+                .post("https://reqres.in/api/login")
+                .then()
+                .log().status()
+                .log().body()
+                .statusCode(200)
+                .body("token", notNullValue())
+                .extract()
+                .as(LoginResponseLombokModel.class);
+
+        assertThat(response.getToken()).isEqualTo("QpwL5tke4Pnpja7X4");
     }
 
     @Test
@@ -121,7 +149,8 @@ public class ReqresInExtendedTests {
         body.setEmail("eve.holt@reqres.in");
         body.setPassword("cityslicka");
 
-        LoginBodyLombokModel response = given()
+        LoginResponseLombokModel response = given()
+                .filter(new AllureRestAssured())
                 .spec(loginRequestSpec)
                 .body(body)
                 .when()
@@ -129,9 +158,9 @@ public class ReqresInExtendedTests {
                 .then()
                 .spec(loginResponseSpec)
                 .extract()
-                .as(LoginBodyLombokModel.class);
+                .as(LoginResponseLombokModel.class);
 
-        assertThat(response.getEmail()).isEqualTo("QpwL5tke4Pnpja7X4");
+        assertThat(response.getToken()).isEqualTo("QpwL5tke4Pnpja7X4");
     }
 
 }
