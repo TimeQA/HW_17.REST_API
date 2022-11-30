@@ -1,4 +1,4 @@
-package com.example.repetitionsForTheTeacher;
+package com.example.repetitionsfortheteacher;
 
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;

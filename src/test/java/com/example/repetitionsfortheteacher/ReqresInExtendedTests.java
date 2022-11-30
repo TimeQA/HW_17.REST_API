@@ -1,4 +1,4 @@
-package com.example.repetitionsForTheTeacher;
+package com.example.repetitionsfortheteacher;
 
 import com.example.models.lombok.LoginBodyLombokModel;
 import com.example.models.lombok.LoginResponseLombokModel;
