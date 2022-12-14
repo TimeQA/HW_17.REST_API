@@ -1,5 +1,6 @@
 package com.example.tests;
 
+import com.example.models.RegisterModelDto;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import org.json.JSONObject;
@@ -24,6 +25,7 @@ public class RegistrationTests {
 
     @Test
     void createNewUser() {
+
         given()
                 .body("{ \"name\": \"morpheus\", \"job\": \"leader\" }")
                 .when()
@@ -32,6 +34,49 @@ public class RegistrationTests {
                 .log().body()
                 .log().status()
                 .statusCode(201);
+    }
+
+    @Test
+    void createNewUser2() {
+
+        RegisterModelDto user = new RegisterModelDto();
+        user.setJob("leader");
+        user.setName("morpheus");
+
+        given()
+                .body(user)
+                .when()
+                .post("https://reqres.in/api/users")
+                .then()
+                .log().body()
+                .log().status()
+                .statusCode(201);
+    }
+
+
+    @Test
+    void updateUserAndCheckResults2() {
+
+        RegisterModelDto user = new RegisterModelDto();
+        user.setJob("zion resident");
+        user.setName("morpheus");
+
+
+        String expectedResponseJob = "zion resident";
+
+        String actualBody = given()
+                .log().uri()
+                .contentType(ContentType.JSON)
+                .body(user)
+                .when()
+                .post("https://reqres.in/api/users/2")
+                .then()
+                .log().status()
+                .log().body()
+                .statusCode(201)
+                .extract()
+                .path("job");
+        assertEquals(actualBody, expectedResponseJob);
     }
 
     @Test
@@ -54,7 +99,7 @@ public class RegistrationTests {
                 .log().body()
                 .statusCode(201)
                 .extract()
-                .path("job");
+                .path("name");
         assertEquals(actualBody, expectedResponseJob);
     }
 
