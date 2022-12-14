@@ -12,6 +12,15 @@ import static org.hamcrest.Matchers.notNullValue;
 
 public class Specs {
 
+    public static RequestSpecification singleUrl= with()
+            .filter(withCustomTemplates())
+            .baseUri("https://reqres.in/api/")
+            .basePath("unknown/")
+            .log().uri()
+            .log().body()
+            .contentType(ContentType.JSON);
+
+
     public static RequestSpecification loginRequestSpec = with()
             .filter(withCustomTemplates())
             .baseUri("https://reqres.in")
@@ -46,11 +55,5 @@ public class Specs {
             .log(LogDetail.STATUS)
             .log(LogDetail.BODY)
             .build();
-    public static ResponseSpecification successfulResponse = new ResponseSpecBuilder()
-            .expectStatusCode(200)
-            .build();
 
-    public static ResponseSpecification badResponse = new ResponseSpecBuilder()
-            .expectStatusCode(400)
-            .build();
 }

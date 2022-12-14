@@ -10,6 +10,6 @@ public class RegisterModelDto {
 
     @Getter
     @Setter
-    private String name, job;
+    private String name, job, email, password;
 
 }

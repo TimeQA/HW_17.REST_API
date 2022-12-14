@@ -1,0 +1,38 @@
+Token
+5761538621:AAGPDYcRBehiPxil3hmPp_6jUZ6MEFwr_68
+
+
+Узнать chat ID (вместо Your_BOTToken вставить токена вашего бота)
+https://api.telegram.org/bot5761538621:AAGPDYcRBehiPxil3hmPp_6jUZ6MEFwr_68/getUpdates
+
+Для отправки сообщения в чат без SMS (для этого нужны token и chatId)
+curl -X POST -H 'Content-Type: application/json' -d '{"chat_id": "-1001844412751", "text": "This is a test from qa.guru", "disable_notification": true}' https://api.telegram.org/bot5761538621:AAGPDYcRBehiPxil3hmPp_6jUZ6MEFwr_68/sendMessage
+
+java "-DconfigFile=notifications/telegram.json" -jar notifications/allure-notifications-4.2.1.jar
+
+
+
+Для отправки уведомления с помощью телеграм бота с локальной машины
+java "-DconfigFile=notifications/localTelegram.json" -jar notifications/allure-notifications-4.2.1.jar
+
+
+
+    "allureFolder": "build/reports/allure-report/allureReport",
+
+
+    {
+      "base": {
+        "project": "$(JOB_BASE_NAME)",
+        "environment": "qa.guru",
+        "comment": "some comment",
+        "reportLink": "$(BUILD_URL)",
+        "language": "en",
+        "allureFolder": "build/allure-report/",
+        "enableChart": true
+      },
+      "telegram": {
+        "token": "5761538621:AAGPDYcRBehiPxil3hmPp_6jUZ6MEFwr_68",
+        "chat": "-1001844412751",
+        "replyTo": ""
+      }
+    }
