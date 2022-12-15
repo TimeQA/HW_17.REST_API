@@ -42,6 +42,23 @@ public class RegistrationTests {
                 .spec(logsInResponse);
     }
 
+    @Test
+    void registerUserWithoutEmail() {
+
+        RegisterModelDto user = new RegisterModelDto();
+        user.setJob("leader");
+        user.setName("morpheus");
+        user.setPassword("morpheus.holt@reqres.in");
+
+        given()
+                .spec(registerRequestSpec)
+                .body(user)
+                .when()
+                .post()
+                .then()
+                .spec(logsInResponse);
+    }
+
 
     @Test
     void updateUserAndCheckResults() {
